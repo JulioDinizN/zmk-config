@@ -1,6 +1,6 @@
 layout: {zmk_keyboard: corne}
 layers:
-  default:
+  Base:
   - TAB
   - Q
   - W
@@ -38,12 +38,12 @@ layers:
   - /
   - RSHFT
   - LGUI
-  - lower
+  - Lower
   - SPACE
   - RET
-  - raise
+  - Raise
   - RALT
-  lower:
+  Lower:
   - '`'
   - '1'
   - '2'
@@ -86,7 +86,7 @@ layers:
   - RET
   - {t: ▽, type: trans}
   - RALT
-  raise:
+  Raise:
   - TAB
   - '!'
   - '@'
@@ -129,7 +129,7 @@ layers:
   - RET
   - {type: held}
   - RALT
-  adjust:
+  Adjust:
   - {t: ▽, type: trans}
   - F1
   - F2
