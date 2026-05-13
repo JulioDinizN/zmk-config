@@ -110,7 +110,7 @@ layers:
   - '['
   - ']'
   - \
-  - '`'
+  - '"'
   - LSHFT
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -121,8 +121,8 @@ layers:
   - +
   - '{'
   - '}'
+  - '?'
   - '|'
-  - '~'
   - LGUI
   - {t: ▽, type: trans}
   - SPACE
