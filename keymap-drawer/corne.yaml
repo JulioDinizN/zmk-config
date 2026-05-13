@@ -87,7 +87,7 @@ layers:
   - {t: ▽, type: trans}
   - RALT
   Raise:
-  - TAB
+  - '~'
   - '!'
   - '@'
   - '#'
