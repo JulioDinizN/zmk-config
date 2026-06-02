@@ -1,6 +1,61 @@
 name: Build ZMK firmware
-on: [push, pull_request, workflow_dispatch]
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "build.yaml"
+      - "config/**"
+      - ".github/workflows/build.yml"
+  pull_request:
+    paths:
+      - "build.yaml"
+      - "config/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
+
+  release:
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      - name: Download firmware artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware
+
+      - name: Create release metadata
+        id: release
+        run: |
+          version="$(TZ=America/Sao_Paulo date +v%Y.%m.%d)-${GITHUB_RUN_NUMBER}"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          {
+            echo "body<<EOF"
+            echo "Automatic ZMK firmware build for commit ${GITHUB_SHA}."
+            echo ""
+            echo "Flash the file containing \`corne_left\` to the left half and the file containing \`corne_right\` to the right half."
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.release.outputs.version }}
+          BODY: ${{ steps.release.outputs.body }}
+        run: |
+          gh release create "$VERSION" firmware/*.uf2 \
+            --title "$VERSION" \
+            --notes "$BODY" \
+            --target "$GITHUB_SHA"

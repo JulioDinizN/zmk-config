@@ -21,18 +21,24 @@ The build currently includes the `nice_oled` shield for the OLED status screen.
 1. Change the config files, usually `config/corne.keymap` or
    `config/corne.conf`.
 2. Commit and push the change to `main`.
-3. Open the repository on GitHub.
-4. Go to Actions.
-5. Open the latest `Build ZMK firmware` run.
-6. Wait until the run finishes with `Success`.
-7. Download the artifact named `firmware`.
-8. Unzip the artifact.
+3. GitHub Actions builds the firmware automatically.
+4. When the build succeeds, GitHub Actions creates a new release automatically.
+5. Open the latest release and download the `.uf2` firmware files.
 
-The unzipped folder should contain one `.uf2` file for `corne_left` and one
-`.uf2` file for `corne_right`.
+Each release should contain one `.uf2` file for `corne_left` and one `.uf2`
+file for `corne_right`.
+
+Releases are versioned automatically with the Sao Paulo date and the GitHub
+Actions run number, for example `v2026.06.02-42`.
+
+The firmware build only runs automatically when firmware-relevant files change,
+such as `build.yaml`, files under `config/`, or the firmware workflow itself.
 
 Do not use the keymap-drawer artifact for flashing. That workflow only updates
 the layout image in this README.
+
+If you need the temporary Actions artifact instead of the release, open the
+latest `Build ZMK firmware` run and download the artifact named `firmware`.
 
 ### Flash The Keyboard
 
